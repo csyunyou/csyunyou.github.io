@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.4.0 -->
+<title>读书笔记 | 云游的博客</title>
+<meta name="generator" content="Jekyll v3.8.1" />
+<meta property="og:title" content="读书笔记" />
+<meta name="author" content="csyunyou" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="写在前面 最近在读《NodeJS Desgin Patterns》这本书。作者的初衷是希望通过介绍nodeJS以及后台相关的一些概念，来帮助我们平时更好地组织代码，诸如模块化，异步，分布式，扩展性等问题，并让前端程序能够对后端有一个更深入的了解。此书现在只有英文版，共520页。我花了一个星期的时间读完，同时记录其中的一些收获。" />
+<meta property="og:description" content="写在前面 最近在读《NodeJS Desgin Patterns》这本书。作者的初衷是希望通过介绍nodeJS以及后台相关的一些概念，来帮助我们平时更好地组织代码，诸如模块化，异步，分布式，扩展性等问题，并让前端程序能够对后端有一个更深入的了解。此书现在只有英文版，共520页。我花了一个星期的时间读完，同时记录其中的一些收获。" />
+<link rel="canonical" href="http://localhost:4000/node/2018/05/28/nodeJS-Design-Patterns-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.html" />
+<meta property="og:url" content="http://localhost:4000/node/2018/05/28/nodeJS-Design-Patterns-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.html" />
+<meta property="og:site_name" content="云游的博客" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-05-28T00:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"写在前面 最近在读《NodeJS Desgin Patterns》这本书。作者的初衷是希望通过介绍nodeJS以及后台相关的一些概念，来帮助我们平时更好地组织代码，诸如模块化，异步，分布式，扩展性等问题，并让前端程序能够对后端有一个更深入的了解。此书现在只有英文版，共520页。我花了一个星期的时间读完，同时记录其中的一些收获。","author":{"@type":"Person","name":"csyunyou"},"@type":"BlogPosting","url":"http://localhost:4000/node/2018/05/28/nodeJS-Design-Patterns-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.html","headline":"读书笔记","dateModified":"2018-05-28T00:00:00+08:00","datePublished":"2018-05-28T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/node/2018/05/28/nodeJS-Design-Patterns-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="云游的博客" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">云游的博客</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+              <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+              <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">&lt;NodeJS Design Patterns&gt;读书笔记</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-05-28T00:00:00+08:00" itemprop="datePublished">May 28, 2018
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h3 id="写在前面">写在前面</h3>
+<p>最近在读《NodeJS Desgin Patterns》这本书。作者的初衷是希望通过介绍<strong>nodeJS</strong>以及<strong>后台</strong>相关的一些概念，来帮助我们平时更好地<strong>组织代码</strong>，诸如模块化，异步，分布式，扩展性等问题，并让前端程序能够对后端有一个更深入的了解。<a href="https://github.com/xingbofeng/Node.js-Design-Patterns-Second-Edition/blob/master/Node.js%20Design%20Patterns%20Second%20Edition.pdf">此书</a>现在只有<em>英文版</em>，共520页。我花了一个星期的时间读完，同时记录其中的一些收获。</p>
+
+<h3 id="序言">序言</h3>
+<p>通过掌握它最强大的<strong>组件</strong>和<strong>模式</strong>来获得NodeJS的精髓，从而能够轻松地创建<strong>模块化</strong>和<strong>可扩展</strong>的应用</p>
+
+<h3 id="第一章-nodejs平台">第一章 NodeJS平台</h3>
+<ul>
+  <li>NodeJS设计哲学：微内核；小包；小的暴露面；简单实用</li>
+  <li>ES6新特性：let/const；箭头函数；类；增强的对象字面量；Map/Set；模板字面量；</li>
+  <li>在多线程中web服务器中，对每个请求会新建一个线程，线程在进行IO操作时会阻塞，线程的切换以及每个线程等待IO而阻塞的时间，会浪费资源</li>
+  <li>使用轮询实现在同一个线程中执行多个非阻塞的异步IO操作会因为忙等而消耗大量的CPU资源</li>
+  <li>同步事件解多路复用（事件通知接口）实现了一个IO事件队列，它会阻塞直到有新的事件可以处理</li>
+  <li>反应器模式：当应用请求一个IO操作时，会向事件解多路复用器注册一条记录，当一组记录的IO操作完成以后，会传送对应的事件到事件队列，此时事件队列开始执行队列事件的回调函数（这个过程中可能会因为执行IO操作继续向事件解多路复用器注册记录），当队列空时，事件循环阻塞，直到有新的事件到来才执行下一轮事件循环</li>
+  <li>NodeJS的组成：
+    <ul>
+      <li>libuv：用于抽象不同平台对事件解多路复用器实现的差异，同一系统中不同类型的文件对异步支持的差异</li>
+      <li>bindings：将libuv和其他底层函数封装暴露给JS</li>
+      <li>V8：JS运行时</li>
+      <li>Node-core：核心的上层nodeJS Api</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="第二章-nodejs基本的模式">第二章 NodeJS基本的模式</h3>
+<ul>
+  <li>同步代码是指代码执行顺序和书写顺序一致；异步代码是指异步操作会立刻返回，继续执行位于它后面的代码，等到异步操作完成后再执行它所处位置所设置的回调函数的代码</li>
+  <li>同步或异步的CPS(传递延续风格)：相比通过return将函数结果直接返回的直接风格，它将函数的执行结果继续传递给另一个函数（回调函数）</li>
+  <li>如果一个函数在某些情况下表现为异步，在另一些情况下表现为同步，那么这个函数式不可预测的，会带来极其难以定位以及复现的bug</li>
+  <li>同步执行的函数采用return结果的直接风格，异步执行的函数采用CPS</li>
+  <li>采用process.nextTick将回调函数放到event loop的头部，setImmediate将回调函数放到尾部实现函数的异步执行</li>
+  <li>NodeJS中对回调函数的约定
+    <ul>
+      <li>在CPS中，回调函数放在参数的最后一位</li>
+      <li>在回调函数中，错误必须是Error类型并且在参数的第一位，若没错误则该参数为null或者undefined</li>
+      <li>错误传递：在同步函数中，错误通过throw往外传直到被捕获；在异步函数中，错误通过在回调函数中传递</li>
+      <li>在异步函数中的回调函数里抛出的未捕获异常会被event loop捕获，导致整个程序崩溃，且可以通过process.on(‘uncaughtException’)监听。（<em>注意：给该异步函数添加try catch并不能捕获回调函数里抛出的异常</em>）</li>
+    </ul>
+  </li>
+  <li>暴露模块模式：通过一个立即执行函数创建一个闭包，使得闭包内定义的变量都拥有私有作用域，并通过return将需要暴露的变量返回。它是构建nodeJS模块系统的基石</li>
+  <li>NodeJS模块系统的主要两个函数是loadModule和require。前者用于给模块代码添加一个立即执行函数闭包，并注入module，module.exports，require三个变量。后者用于初始化，缓存，加载某个模块</li>
+  <li>模块路径解析算法：绝对路径或相对路径的模块；核心模块；找不到核心模块则从当前文件的node_modules文件夹依次向上查找</li>
+  <li>NodeJS模块系统使得每个文件都有自己的node_modules，从而解决了依赖版本不一致的问题</li>
+  <li>require函数中初始化-&gt;缓存-&gt;加载的执行顺序使得定义循环依赖成为可能，但是循环依赖会带来某个模块状态不完整的问题</li>
+  <li>模块定义模式：
+    <ul>
+      <li>将变量直接挂载在exports的属性上</li>
+      <li>只导出一个函数并赋值给module.exports，可以选择将不太重要的功能或变量挂载在该函数的属性上</li>
+      <li>导出一个构造函数/类</li>
+      <li>导出一个构造函数/类的实例实现一定范围内的单例模式</li>
+    </ul>
+  </li>
+  <li>猴子补丁：在一个模块中对引入的另一个模块的变量或全局对象进行修改（不建议）</li>
+  <li>观察者模式：当状态改变时，由一个subject通知所有订阅的listener。它模拟了NodeJS响应式的本质，也是对用callback解决异步问题的一个很好的补充</li>
+  <li>通过继承eventEmitter创建一个可观察的通用对象</li>
+  <li>观察者模式的错误处理主要通过监听一个error事件进行传播</li>
+  <li>eventEmitter主要用于传递信息，callback主要用于异步返回结果，具体地来说：
+    <ul>
+      <li>cb受限于支持多种事件类型</li>
+      <li>cb只能且必须只执行一次，而事件处理器可以执行多次或不执行</li>
+      <li>cb只能有一个订阅者，而事件处理器可以有多个</li>
+    </ul>
+  </li>
+  <li>cb和eventEmitter相结合的模式</li>
+</ul>
+
+<h3 id="第三章">第三章</h3>
+<ul>
+  <li>回调地狱会降低代码可读性，并且不同嵌套层级的回调函数中同名变量名会覆盖</li>
+  <li>顺序执行异步任务：创建一个迭代器，在迭代器函数里面执行对应下标的异步函数，异步函数的回调函数是执行下标加一的迭代器，递归地迭代</li>
+  <li>并发执行异步任务：一开始让所有异步任务全部开始执行，并用一个completed变量记录已完成的异步任务数目。每个异步任务执行完后completed++，并判断是否已经完成全部异步任务</li>
+  <li>并发执行的异步任务可能会对同一资源产生竞争条件，可以采用一个变量来实现所谓的互斥</li>
+  <li>数目受限的并发执行异步任务
+    <ul>
+      <li>除了completed外，新增一个running变量来限制并发的数目，在结合next递归触发其他异步任务的执行</li>
+      <li>利用队列来缓存全局的pending状态的任务（能够实现全局数目受限）</li>
+    </ul>
+  </li>
+  <li>将上述复杂的模式抽象成一个易使用和复用的接口，比如async</li>
+</ul>
+
+<h3 id="第四章-es6中的异步控制流模式">第四章 ES6中的异步控制流模式</h3>
+<h4 id="promise">Promise</h4>
+<ul>
+  <li>Promise中的错误会自动传给下一个promise，直到被catch捕获</li>
+  <li>Promisify一个CPS风格的Node函数：返回一个新的promise，若回调函数无异常，则resolve，否则reject</li>
+  <li>顺序执行异步任务：通过promise=promise.then(当前异步任务)动态地递归地构建promise链</li>
+  <li>并发执行异步任务：通过Promise.all(promise数组)</li>
+  <li>数目受限的并发执行任务：结合队列和promise</li>
+  <li>暴露既支持CPS回调函数风格，也支持promise风格的API：若参数中有cb则用cb传递结果，否则返回promise
+    <h4 id="generator">Generator</h4>
+  </li>
+  <li>拥有多个入口，即在generator函数内部能够通过yield中断函数执行，在函数外部能够通过next让其重新运行</li>
+  <li>通过给generator函数注入一个特殊的cb参数，该cb能够调用generator.next。这样在generator函数内部能通过yield中断函数运行，在异步的回调函数中调用cb恢复函数运行，从而实现同步代码的风格。</li>
+  <li>通过thunk函数将某个函数改写成一个只接受cb为参的函数，在generatory注入的cb中统一注入这个cb</li>
+  <li>generator需要结合控制流的库一起使用，如co
+    <h4 id="asyncawait">Async/Await</h4>
+  </li>
+  <li>对generator和co的封装</li>
+</ul>
+
+<h3 id="第五章-使用流进行编码">第五章 使用流进行编码</h3>
+<ul>
+  <li>流的重要性：拥有基于流水线所带来的提高时间和空间上的效率；通过pipe实现流之间的组合</li>
+  <li>可读，可写，双工，转换流都是EventEmitter的实例。每一种流都可以选择用二进制或对象模式传输数据</li>
+  <li>可读流代表数据的源头，通过this.push可往缓冲区里面添加数据：
+    <ul>
+      <li>流动模式：通过监听data事件，一旦有数据则处理</li>
+      <li>非流动模式：通过监听readable事件，一旦有数据则通过read()方法手动获取数据，更灵活</li>
+    </ul>
+  </li>
+  <li>背压：当往流写入数据的速度远远大于消耗该数据的速度。应设置一个缓存大小，当写入数据量超过该阈值时，停止继续写入</li>
+  <li>转换流是双工流的一种特例，建立了可读流与可写流之间的数据的联系</li>
+  <li>使用管道连接不同的流：在linux中使用|符号 ，在nodeJS中使用readable.pipe(writable)
+    <h4 id="利用流解决异步控制流">利用流解决异步控制流</h4>
+  </li>
+  <li>顺序执行异步任务：利用一个特殊的done函数来通知流，使得只有当前块（异步任务）执行完成以后，再读取下一个块</li>
+  <li>并发执行异步任务：新建一个转换流，在_transform函数里执行异步任务，并马上调用done函数读取下一个块执行异步任务， 每个异步函数的回调函数中检查running变量是否为0，是则调用_flush函数里面的done，触发finish事件</li>
+  <li>数目受限的并发执行异步任务：新建一个转换流，若this.running&lt;this.concurrency，则调用done读取下一个块执行异步任务，否则缓存该done函数，在异步函数的回调函数中调用done
+    <h4 id="管道模式">管道模式</h4>
+  </li>
+  <li>组合流：将多个流串在一起组成一个整体对外暴露，写入时是对第一个流写入，读取时是对最后一个流进行读取</li>
+  <li>分叉流：将一个可读流分别pipe到不同的可写流</li>
+  <li>合并流：将多个可读流分别pipe到同一个可写流（两个可读流的数据同时交错写入）</li>
+  <li>利用流实现多路复用和解多路复用
+    <h3 id="第六章-传统的设计模式">第六章 传统的设计模式</h3>
+  </li>
+  <li>工厂：将对象的创建和实现分离，使得可以根据不同的条件（运行时，入参）用不同的方法创建不同的对象。</li>
+  <li>组合工厂：将多个工厂函数组装成一个新的工厂函数，相比传统的类和继承更灵活。</li>
+  <li>暴露构造函数：构造函数只接受一个函数作为参数，并赋予此函数唯一能够改变内部状态的能力。</li>
+  <li>代理：通过对象增强或组合的形式，代理所有对原对象的访问，并且保持接口一致性的。</li>
+  <li>装饰器：通过对象增强或组合的形式，对某个类的实例进行动态增加方法或属性。</li>
+  <li>适配器：通过更改原有接口，使得外观不兼容的接口能互相访问方法和属性。</li>
+  <li>策略：共同的部分封装成context，不同的部分封装成策略进行选择和替换。</li>
+  <li>状态：通过改变内部状态来触发执行不同的行为。</li>
+  <li>模板：用自定义模板替换整个大流程中的各别小流程。</li>
+  <li>中间件：将一组中间件串起来组成一个大的应用，其中每个中间件分成上流和下流。</li>
+  <li>命令：通过命令去操纵某个目标对象的行为，从而使得任务可以延时，回退，分布式执行。</li>
+</ul>
+
+<h3 id="第七章-模块组织和引入">第七章 模块组织和引入</h3>
+<ul>
+  <li>硬编码：引入有状态的模块会使得复用，测试更加困难。</li>
+  <li>依赖注入：通过工厂函数将依赖作为参数动态注入到模块里，这个动态注入的过程发生在应用的最外层。</li>
+  <li>资源定位器：创建一个用于注册和获取依赖的资源定位器，使得每个文件依赖资源定位器而非资源。从而可以实现延时、自动的依赖图构造。</li>
+  <li>依赖注入容器：创建一个用于注册和获取依赖的容器，通过给每个文件注入所需要的依赖而非资源定位器，使得每个文件更易于复用和测试。</li>
+  <li>除了用于分发和共享以外，用包来组织代码结构可以使引用路径更简洁，复用性更强（通过node_modules）</li>
+  <li>应用控制的扩展只需要应用提供一个扩展机制；插件控制的扩展能直接访问应用本身，因此更强大更灵活</li>
+  <li>将应用信息暴露给插件：通过硬编码，资源定位器，依赖注入容器实现的插件扩展机制，应用不需要了解每个插件需要的依赖，而依赖注入则需要。</li>
+</ul>
+
+<h3 id="第八章-构建通用同构的web-app">第八章 构建通用（同构）的Web App</h3>
+<ul>
+  <li>UMD:使一份代码能同时运行在AMD,CommonJS,以及浏览器global</li>
+  <li>跨平台开发
+    <ul>
+      <li>运行时进行代码分支：在源代码中判断宿主环境来执行不同平台的代码</li>
+      <li>构建时进行代码分支：利用webpack动态注入变量使得宿主环境的判断能够提前，从而减少嵌入的代码</li>
+      <li>模块替换：通过预先声明该平台需要用到的对应模块，将宿主环境判断的代码与应用程序中的逻辑代码分离开来。</li>
+      <li>同构路由和渲染：采用history模式的路由，页面第一次加载时是服务端渲染（更快，SEO更友好），后续的任何交互通过客户端渲染。</li>
+      <li>同构数据获取：利用代理解决跨域，axios等类库屏蔽不同平台下的请求实现。</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="第九章-高级的异步秘籍">第九章 高级的异步秘籍</h3>
+<ul>
+  <li>加载异步初始化的模块：
+    <ul>
+      <li>常规方法：在需要用到该模块的地方进行判断；将加载好的异步初始化模块作为依赖注入到其他模块中</li>
+      <li>利用命令、状态和代理模式实现预初始化队列</li>
+    </ul>
+  </li>
+  <li>异步请求批处理，在高负载以及速度慢的API情况下能够实现批处理数目最大化</li>
+  <li>利用promise更优雅地批处理和缓存异步请求：对同一个promise的多次then可以实现批处理；then方法只能被调用一次，且resolved后添加的then仍能够异步触发可以实现缓存</li>
+  <li>避免CPU密集型的同步操作阻塞Event Loop：
+    <ul>
+      <li>利用setImmediate(不能用nextTick)去交替执行同步代码中某些步骤</li>
+      <li>将CPU密集型的同步操作包裹在子进程中，通过多进程、父子进程之间的异步消息通讯机制实现并发请求响应</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="第十章-强扩展性的架构">第十章 强扩展性的架构</h3>
+<ul>
+  <li>扩展性的三个维度：克隆实例；按功能或服务分解应用；按数据块进行分割（最复杂）</li>
+  <li>利用Master进程程控制多个克隆的应用工作进程，实现负载均衡，提高弹性和扩展性，0暂停时间的重启</li>
+  <li>解决在有状态的请求中多个克隆实例数据不共享的问题：
+    <ul>
+      <li>利用数据库的一致性提供一份全局共享的数据</li>
+      <li>让负载均衡器记录请求（session或ip标示唯一性）与克隆实例的关联</li>
+    </ul>
+  </li>
+  <li>通过反向代理实现负载均衡来提高应用的扩展性，相比主从进程模式的负载均衡，它能将请求代理到不同机器上的不同进程，且功能更多，更灵活</li>
+  <li>通过让每个服务器启动时注册服务，退出时注销服务，实现动态的负载均衡</li>
+  <li>P2P负载均衡：若内部服务器提供的服务信息暴露给客户端，那么可以删除反向代理结点，让客户端自主实现负载均衡进行服务器选择决策</li>
+  <li>大一统架构：内部模块之间的通信更容易，但强耦合会带来维护以及拓展上的困难，存在单点故障。</li>
+  <li>微服务架构：将复杂的应用分解成独立的服务，使得每个服务可替换，可复用，提高应用的扩展性，随之带来的是服务之间的通信问题</li>
+  <li>服务之间的通信
+    <ul>
+      <li>通过API反向代理让每个服务直接访问其他服务</li>
+      <li>通过将直接暴露的API组合成服务于具体应用的、带有语义的API服务，或者实现数据聚合。这个用于抽象逻辑的组合层可以与应用层分离开来</li>
+      <li>通过分布式的发布-订阅模式让每个服务维护与其他服务之间的通信</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="第十一章-消息通信分布式实例集成模式">第十一章 消息通信/分布式实例集成模式</h3>
+<ul>
+  <li>消息系统的四个基本要素：
+    <ul>
+      <li>通信方向：单向或者基于请求响应的双向通信</li>
+      <li>消息类型：命令；事件；文档（数据）</li>
+      <li>发送消息的时机：特别地，异步消息队列能够存储消息，并在将来的某个特定时间发送。</li>
+      <li>消息的传递方式：点对点直接传递或者通过一个中心的消息代理</li>
+    </ul>
+  </li>
+  <li>发布订阅模式能够让订阅者和发布者互相感知不到对方的存在，高度解耦</li>
+  <li>通过采用redis等内存数据库作为消息代理，结合事件发布订阅模式，使各个分布式的克隆实例互相通信</li>
+  <li>利用zmq给每个分布式的克隆实例添加pub，sub套接字，并让相应的sub订阅对应的pub（每个实例需要知道其他实例的信息），从而实现点对点通信</li>
+  <li>利用异步消息队列实现持久化的订阅者，从而使得订阅者离线时也不丢失数据</li>
+  <li>基于消息发送接收机制（而事件非发布订阅）实现的并行流水线可以将任务分发到不同机器上（主从进程模式只能分发到单机上的不同进程）执行，再将结果进行汇总</li>
+  <li>用关联标识符在请求/响应通信中标示每一个请求，使得在异步机制中每个请求都能正确地获得它自己的响应</li>
+  <li>在请求/响应通信中，当有多个不同类型的请求者时，需要用一个地址（队列标识符）来做进一步标识区分</li>
+</ul>
+
+
+  </div><a class="u-url" href="/node/2018/05/28/nodeJS-Design-Patterns-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">云游的博客</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">csyunyou</li><li><a class="u-email" href="mailto:csyunyou@gmail.com">csyunyou@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/csyunyou"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">csyunyou</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>拥有的从来都是侥幸，无常才是人生的常态，所有的成熟都是从失去开始。</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
