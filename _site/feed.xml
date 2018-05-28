@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-05-28T16:12:40+08:00</updated><id>http://localhost:4000/</id><title type="html">云游的博客</title><subtitle>拥有的从来都是侥幸，无常才是人生的常态，所有的成熟都是从失去开始。</subtitle><author><name>csyunyou</name></author><entry><title type="html">读书笔记</title><link href="http://localhost:4000/node/2018/05/28/nodeJS-Design-Patterns-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.html" rel="alternate" type="text/html" title="&lt;NodeJS Design Patterns&gt;读书笔记" /><published>2018-05-28T00:00:00+08:00</published><updated>2018-05-28T00:00:00+08:00</updated><id>http://localhost:4000/node/2018/05/28/nodeJS-Design-Patterns%20%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0</id><content type="html" xml:base="http://localhost:4000/node/2018/05/28/nodeJS-Design-Patterns-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.html">&lt;h3 id=&quot;写在前面&quot;&gt;写在前面&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-05-28T16:19:27+08:00</updated><id>http://localhost:4000/</id><title type="html">云游的博客</title><subtitle>拥有的从来都是侥幸，无常才是人生的常态，所有的成熟都是从失去开始。</subtitle><author><name>csyunyou</name></author><entry><title type="html">读书笔记</title><link href="http://localhost:4000/node/2018/05/28/nodeJS-Design-Patterns-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.html" rel="alternate" type="text/html" title="&lt;NodeJS Design Patterns&gt;读书笔记" /><published>2018-05-28T00:00:00+08:00</published><updated>2018-05-28T00:00:00+08:00</updated><id>http://localhost:4000/node/2018/05/28/nodeJS-Design-Patterns%20%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0</id><content type="html" xml:base="http://localhost:4000/node/2018/05/28/nodeJS-Design-Patterns-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.html">&lt;h3 id=&quot;写在前面&quot;&gt;写在前面&lt;/h3&gt;
 &lt;p&gt;最近在读《NodeJS Desgin Patterns》这本书。作者的初衷是希望通过介绍&lt;strong&gt;nodeJS&lt;/strong&gt;以及&lt;strong&gt;后台&lt;/strong&gt;相关的一些概念，来帮助我们平时更好地&lt;strong&gt;组织代码&lt;/strong&gt;，诸如模块化，异步，分布式，扩展性等问题，并让前端程序能够对后端有一个更深入的了解。&lt;a href=&quot;https://github.com/xingbofeng/Node.js-Design-Patterns-Second-Edition/blob/master/Node.js%20Design%20Patterns%20Second%20Edition.pdf&quot;&gt;此书&lt;/a&gt;现在只有&lt;em&gt;英文版&lt;/em&gt;，共520页。我花了一个星期的时间读完，同时记录其中的一些收获。&lt;/p&gt;
 
 &lt;h3 id=&quot;序言&quot;&gt;序言&lt;/h3&gt;
@@ -64,7 +64,7 @@
   &lt;li&gt;cb和eventEmitter相结合的模式&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&quot;第三章&quot;&gt;第三章&lt;/h3&gt;
+&lt;h3 id=&quot;第三章--用回调实现异步控制流&quot;&gt;第三章  用回调实现异步控制流&lt;/h3&gt;
 &lt;ul&gt;
   &lt;li&gt;回调地狱会降低代码可读性，并且不同嵌套层级的回调函数中同名变量名会覆盖&lt;/li&gt;
   &lt;li&gt;顺序执行异步任务：创建一个迭代器，在迭代器函数里面执行对应下标的异步函数，异步函数的回调函数是执行下标加一的迭代器，递归地迭代&lt;/li&gt;
@@ -122,9 +122,11 @@
   &lt;li&gt;组合流：将多个流串在一起组成一个整体对外暴露，写入时是对第一个流写入，读取时是对最后一个流进行读取&lt;/li&gt;
   &lt;li&gt;分叉流：将一个可读流分别pipe到不同的可写流&lt;/li&gt;
   &lt;li&gt;合并流：将多个可读流分别pipe到同一个可写流（两个可读流的数据同时交错写入）&lt;/li&gt;
-  &lt;li&gt;利用流实现多路复用和解多路复用
-    &lt;h3 id=&quot;第六章-传统的设计模式&quot;&gt;第六章 传统的设计模式&lt;/h3&gt;
-  &lt;/li&gt;
+  &lt;li&gt;利用流实现多路复用和解多路复用&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;第六章-传统的设计模式&quot;&gt;第六章 传统的设计模式&lt;/h3&gt;
+&lt;ul&gt;
   &lt;li&gt;工厂：将对象的创建和实现分离，使得可以根据不同的条件（运行时，入参）用不同的方法创建不同的对象。&lt;/li&gt;
   &lt;li&gt;组合工厂：将多个工厂函数组装成一个新的工厂函数，相比传统的类和继承更灵活。&lt;/li&gt;
   &lt;li&gt;暴露构造函数：构造函数只接受一个函数作为参数，并赋予此函数唯一能够改变内部状态的能力。&lt;/li&gt;
