@@ -72,11 +72,13 @@ title: <NodeJS Design Patterns>读书笔记
 - 并发执行异步任务：通过Promise.all(promise数组)
 - 数目受限的并发执行任务：结合队列和promise
 - 暴露既支持CPS回调函数风格，也支持promise风格的API：若参数中有cb则用cb传递结果，否则返回promise
+
 #### Generator
 - 拥有多个入口，即在generator函数内部能够通过yield中断函数执行，在函数外部能够通过next让其重新运行
 - 通过给generator函数注入一个特殊的cb参数，该cb能够调用generator.next。这样在generator函数内部能通过yield中断函数运行，在异步的回调函数中调用cb恢复函数运行，从而实现同步代码的风格。
 - 通过thunk函数将某个函数改写成一个只接受cb为参的函数，在generatory注入的cb中统一注入这个cb
 - generator需要结合控制流的库一起使用，如co
+
 #### Async/Await
 - 对generator和co的封装
 
